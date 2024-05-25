@@ -1,0 +1,29 @@
+FROM --platform=amd64 ubuntu:focal
+
+# Set environment variables to avoid prompts during package installation
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update \
+    && apt-get install -y tzdata sudo curl git jq \
+    && apt-get clean
+
+# Set the timezone to UTC
+RUN ln -sf /usr/share/zoneinfo/UTC /etc/localtime \
+    && echo "UTC" > /etc/timezone
+
+RUN useradd -m -s /bin/bash github \
+    && usermod -aG sudo github \
+    && passwd -d github
+
+USER github
+
+WORKDIR /home/github
+
+# Download ARM64 Github actions runner
+RUN mkdir actions-runner && cd actions-runner \
+    && curl -s -o actions-runner-linux-x64-2.316.1.tar.gz -L https://github.com/actions/runner/releases/download/v2.316.1/actions-runner-linux-x64-2.316.1.tar.gz \
+    && echo "d62de2400eeeacd195db91e2ff011bfb646cd5d85545e81d8f78c436183e09a8  actions-runner-linux-x64-2.316.1.tar.gz" | sha256sum -c \
+    && tar xzf ./actions-runner-linux-x64-2.316.1.tar.gz \
+    && sudo /home/github/actions-runner/bin/installdependencies.sh
+
+CMD ["bash"]

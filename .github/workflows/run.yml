@@ -2,11 +2,11 @@ name: Actions Run
 
 on:
   push:
-    branch: ["main"]
+    branches: ['main']
 
 jobs:
   test1:
-    runs-on: "self-hosted"
+    runs-on: aj3sh-hosted
     steps:
       - name: Test Step
         run: echo "Hello this is test run"

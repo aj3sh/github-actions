@@ -1,0 +1,34 @@
+# Trigger the workflow
+# From UI:
+#    Goto Actions > Workflow Dispatch > Run Workflow
+#
+# From API:
+# POST:
+# https://api.github.com/repos/aj3sh/github-actions/actions/workflows/{WORKFLOW_ID}/dispatches
+# {"ref": "main", "inputs": {"name": "Ajesh Sen Thapa", "debug": false}}
+#
+# Get WORKFLOW_ID from https://api.github.com/repos/aj3sh/github-actions/actions/workflows
+
+name: Workflow Dispatch
+
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: 'Enter Your Name'
+        required: true
+      debug:
+        description: 'Debug mode'
+        type: boolean
+        default: false
+
+jobs:
+  run:
+    runs-on: aj3sh-hosted
+    steps:
+      - name: Welcome
+        run: echo "Welcome!"
+      - name: Inputs
+        run: |
+          echo "Name: ${{ inputs.name }}"
+          echo "Debug: ${{ inputs.debug }}"

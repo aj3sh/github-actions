@@ -1,0 +1,21 @@
+# Trigger the workflow
+#
+# From API:
+# POST:
+# https://api.github.com/repos/aj3sh/github-actions/dispatches
+# {"event_type": "my-dispatch", "client_payload": {"name": "Ajesh Sen Thapa"}}
+
+name: Repository Dispatch
+
+on:
+  repository_dispatch:
+    types: ['my-dispatch']
+
+jobs:
+  run:
+    runs-on: aj3sh-hosted
+    steps:
+      - name: Welcome
+        run: echo "Welcome!"
+      - name: Payload
+        run: 'echo "Name: ${{ github.event.client_payload.name }}"'

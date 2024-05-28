@@ -5,7 +5,7 @@
 ### Build Runner image
 
 ```shell
-docker build -t gha-runner -f Dockerfile.linux.arm64 .
+docker build -t gha-runner -f Dockerfile.linux.amd64 .
 ```
 
 ### Run Runner container

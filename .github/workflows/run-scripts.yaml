@@ -1,0 +1,19 @@
+name: Run scripts
+
+on:
+  push:
+
+jobs:
+  run:
+    runs-on: aj3sh-hosted
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Hello World Script
+        run: ./src/hello-world.sh
+        shell: bash
+
+      - name: Hello World Script (using workspace dir)
+        run: ${{github.workspace}}/src/hello-world.sh
+        shell: bash

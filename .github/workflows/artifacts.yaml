@@ -1,0 +1,37 @@
+name: Artifacts
+
+on:
+  push:
+
+env:
+  ARTIFACT_FILE: /tmp/welcome.txt
+
+jobs:
+  save-artifact:
+    runs-on: aj3sh-hosted
+    
+    steps:
+      - name: Create artifact file
+        run: echo 'Welcome aj3sh' > $ARTIFACT_FILE
+      - name: Save artifact
+        uses: actions/upload-artifact@main
+        with:
+          name: Welcome
+          path: ${{env.ARTIFACT_FILE}}
+          retention-days: 1
+          overwrite: true
+          if-no-files-found: error
+      - name: Remove artifact from /tmp
+        run: rm -rf $ARTIFACT_FILE
+
+  load-artifact:
+    needs: [save-artifact]
+    runs-on: aj3sh-hosted
+    steps:
+      - name: Load artifact
+        uses: actions/download-artifact@main
+        with:
+          name: Welcome
+          path: /tmp/
+      - name: Read artifact file
+        run: cat $ARTIFACT_FILE

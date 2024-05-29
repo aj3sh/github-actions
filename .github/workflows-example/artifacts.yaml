@@ -8,7 +8,7 @@ env:
 
 jobs:
   save-artifact:
-    runs-on: aj3sh-hosted
+    runs-on: ubuntu-latest
     
     steps:
       - name: Create artifact file

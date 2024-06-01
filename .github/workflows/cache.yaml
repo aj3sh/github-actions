@@ -1,0 +1,46 @@
+name: Cache
+
+on:
+  push:
+
+env:
+  CACHE_FILE: /tmp/cache-file
+
+jobs:
+  cache-key:
+    runs-on: aj3sh-hosted
+
+    steps:
+      - name: Restore Cache
+        uses: actions/cache@v4
+        id: cache
+        with:
+          key: my-cache
+          path: ${{ env.CACHE_FILE }}
+
+      - name: Create Cache File
+        if: steps.cache.outputs.cache-hit == false
+        run: date > $CACHE_FILE
+
+      - name: Read Cache File
+        run: cat $CACHE_FILE
+
+  cache-restore-keys:
+    needs: cache-key
+    runs-on: aj3sh-hosted
+
+    steps:
+      - name: Restore Cache from restore keys
+        uses: actions/cache@v4
+        id: cache
+        with:
+          key: my-cache-key
+          path: ${{ env.CACHE_FILE }}
+          restore-keys: |
+            my-cache
+
+      - name: Show Cache hit
+        run: 'echo "cache-hit: ${{steps.cache.outputs.cache-hit}}"'
+
+      - name: Read Cache File
+        run: cat $CACHE_FILE

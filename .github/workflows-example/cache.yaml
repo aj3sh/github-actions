@@ -8,7 +8,7 @@ env:
 
 jobs:
   cache-key:
-    runs-on: aj3sh-hosted
+    runs-on: ubuntu-latest
 
     steps:
       - name: Restore Cache

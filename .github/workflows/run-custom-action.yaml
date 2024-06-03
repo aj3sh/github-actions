@@ -1,0 +1,19 @@
+name: Run custom action
+
+on:
+  push:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run custom action
+        id: custom_action
+        uses: ./
+        with:
+          name: 'Ajesh Sen Thapa'
+        
+      - name: Custom action output
+        run: echo ${{ steps.custom_action.outputs.status }}

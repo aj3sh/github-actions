@@ -1,3 +1,7 @@
 FROM alpine:latest
 
-CMD [ "echo", "Hello World!" ]
+COPY src/entrypoint.sh /entrypoint.sh
+
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]

@@ -9,7 +9,16 @@ inputs:
 outputs:
   status:
     description: 'Status of the action'
+    # need to assign which steps output to follow
+    value: ${{ steps.entrypoint.outputs.status }}
 
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: 'composite'
+  steps:
+    - name: Main Entrypoint
+      id: entrypoint
+      run: ./src/entrypoint.sh
+      shell: bash
+      env:
+        # GitHub Actions doesn't assign INPUT_* for composite actions
+        INPUT_NAME: ${{ inputs.name }}

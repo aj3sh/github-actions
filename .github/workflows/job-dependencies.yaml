@@ -1,0 +1,58 @@
+name: Job Dependencies
+
+on:
+  push:
+
+jobs:
+  job1:
+    runs-on: aj3sh-hosted
+    outputs:
+      output1: ${{ steps.output_id.outputs.output1 }}
+    steps:
+      - run: echo job1
+      - id: output_id
+        run: echo "output1=hello" > $GITHUB_OUTPUT
+
+  job2:
+    runs-on: aj3sh-hosted
+    needs: job1
+    steps:
+      - run: echo job2
+      - run: echo ${{ needs.job1.outputs.output1 }}
+
+  failing-job:
+    runs-on: aj3sh-hosted
+    steps:
+      - run: echo failing-job
+      - run: exit 1
+
+  failing-job-always:
+    runs-on: aj3sh-hosted
+    needs: failing-job
+    if: ${{ always() }}
+    steps:
+      - run: echo failing-job-always
+
+  failing-job-failure:
+    runs-on: aj3sh-hosted
+    needs: failing-job
+    if: ${{ failure() }}
+    steps:
+      - run: echo failing-job-failure
+
+  job4:
+    runs-on: aj3sh-hosted
+    needs: [job1, failing-job]
+    if: ${{ always() }}
+    steps:
+      - run: echo job4
+
+      - name: Check status of job1
+        run: echo $result
+        env:
+          result: ${{ needs.job1.result }}
+
+      - name: Check status of failing-job
+        run: echo $result
+        env:
+          result: ${{ needs.failing-job.result }}

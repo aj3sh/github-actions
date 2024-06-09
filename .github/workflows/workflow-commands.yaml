@@ -1,0 +1,54 @@
+name: Workflow Commands
+
+on:
+  push:
+
+jobs:
+  run:
+    runs-on: aj3sh-hosted
+    steps:
+      - name: Error
+        run: |
+          echo "::error file=.github/workflows/workflow-commands.yaml,line=4,title=Syntax Error:: Missing Semicolon"
+
+      - name: Warning
+        run: |
+          echo "::warning file=.github/workflows/workflow-commands.yaml,line=9,col=8,title=Syntax Error:: Missing Semicolon"
+
+      - name: Notice
+        run: |
+          echo "::notice file=.github/workflows/workflow-commands.yaml,line=15,title=Syntax Error:: Missing Semicolon"
+
+      - name: Debug
+        run: |
+          echo "::debug:: This is a debug message"
+      
+      - name: Grouping log lines
+        run: |
+          echo "::group::My Group"
+          echo "This is a group message1"
+          echo "This is a group message2"
+          echo "::endgroup::"
+      
+      - name: Masking value
+        run: |
+          TOKEN=`uuid`
+          echo "::add-mask::$TOKEN"
+          echo $TOKEN
+
+      - name: ENV set
+        run: |
+          echo "NAME=AJESH" >> $GITHUB_ENV
+      
+      - name: ENV check
+        run: |
+          echo $NAME
+      
+      - name: OUTPUT set
+        id: output_step
+        run: |
+          echo "output1=ajesh" >> $GITHUB_OUTPUT
+        
+      - name: OUTPUT check
+        run: |
+          echo ${{ steps.output_step.outputs.output1 }}

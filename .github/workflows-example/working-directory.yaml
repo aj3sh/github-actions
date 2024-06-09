@@ -5,7 +5,7 @@ on:
 
 jobs:
   run:
-    runs-on: aj3sh-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Run with working directory
         run: pwd

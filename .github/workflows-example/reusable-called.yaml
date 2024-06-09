@@ -13,7 +13,7 @@ on:
 
 jobs:
   called_job:
-    runs-on: aj3sh-hosted
+    runs-on: ubuntu-latest
     outputs:
       output_status: ${{ steps.output_id.outputs.output_status }}
     steps:

@@ -1,0 +1,12 @@
+name: Working Directory
+
+on:
+  push:
+
+jobs:
+  run:
+    runs-on: aj3sh-hosted
+    steps:
+      - name: Run with working directory
+        run: pwd
+        working-directory: /tmp

@@ -5,7 +5,7 @@ on:
 
 jobs:
   job1:
-    runs-on: aj3sh-hosted
+    runs-on: ubuntu-latest
     outputs:
       output1: ${{ steps.output_id.outputs.output1 }}
     steps:

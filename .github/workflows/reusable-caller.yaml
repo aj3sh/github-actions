@@ -1,0 +1,19 @@
+name: Reusable Workflow Caller
+
+on:
+  push:
+
+jobs:
+  call_resuable:
+    # uses: ./.github/workflows/reusable-called.yamls
+    uses: aj3sh/github-actions/.github/workflows/reusable-called.yaml@main
+    with:
+      name: 'Ajesh Sen Thapa'
+
+  run:
+    needs: call_resuable
+    runs-on: aj3sh-hosted
+
+    steps:
+      - name: Check call_resuable output
+        run: echo ${{ needs.call_resuable.outputs.status }}

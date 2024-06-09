@@ -1,0 +1,24 @@
+name: Reusable Workflow Called
+
+on:
+  workflow_call:
+    inputs:
+      name:
+        required: true
+        type: string
+    
+    outputs:
+      status:
+        value: ${{ jobs.job1.outputs.output_status }}
+
+jobs:
+  called_job:
+    runs-on: aj3sh-hosted
+    outputs:
+      output_status: ${{ steps.output_id.outputs.output_status }}
+    steps:
+      - name: Display input
+        run: echo ${{ inputs.name }}
+
+      - id: output_id
+        run: echo "output_status=success" > $GITHUB_OUTPUT

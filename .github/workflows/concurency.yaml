@@ -1,0 +1,14 @@
+name: Concurency
+
+on:
+  push:
+
+concurrency:
+  group: '${{ github.workflow }}-${{ github.ref }}'
+  cancel-in-progress: true
+
+jobs:
+    run:
+      runs-on: ubuntu-latest
+      steps:
+        - run: echo "Hello World"

@@ -1,0 +1,16 @@
+name: Environments
+
+on:
+  push:
+
+jobs:
+    run:
+      name: ${{ matrix.env }}
+      runs-on: aj3sh-hosted
+      environment: ${{ matrix.env }}
+      strategy:
+        matrix:
+          env: [prod, dev]
+      steps:
+        - run: |
+            echo "Mode: ${{ vars.MODE }}"

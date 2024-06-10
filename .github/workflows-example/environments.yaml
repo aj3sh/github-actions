@@ -6,7 +6,7 @@ on:
 jobs:
     run:
       name: ${{ matrix.env }}
-      runs-on: aj3sh-hosted
+      runs-on: ubuntu-latest
       environment: ${{ matrix.env }}
       strategy:
         matrix:

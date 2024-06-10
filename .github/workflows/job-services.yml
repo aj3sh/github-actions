@@ -1,0 +1,44 @@
+name: Job services
+
+on:
+  push:
+
+env:
+  DB_USER: myDBUser
+  DB_PASSWORD: myDBPassword
+  DB_NAME: myDB
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres
+
+        env:
+          POSTGRES_USER: ${{ env.DB_USER }}
+          POSTGRES_PASSWORD: ${{ env.DB_PASSWORD }}
+          POSTGRES_DB: ${{ env.DB_NAME }}
+        
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Install postgres client
+        run: |
+          sudo apt-get install -y postgresql-client
+      
+      - name: Run postgres commands
+        run: |
+          psql -h 127.0.0.1 -U ${{ env.DB_USER }} -d ${{ env.DB_NAME }} -c "CREATE TABLE sample (id SERIAL PRIMARY KEY, data VARCHAR(100));"
+          psql -h 127.0.0.1 -U ${{ env.DB_USER }} -d ${{ env.DB_NAME }} -c "INSERT INTO sample (data) VALUES ('Hello World');"
+          psql -h 127.0.0.1 -U ${{ env.DB_USER }} -d ${{ env.DB_NAME }} -c "SELECT * FROM sample;"
+        env:
+          PGPASSWORD: ${{ env.DB_PASSWORD }}

@@ -1,0 +1,16 @@
+name: Docker Custom Action
+
+inputs:
+  name:
+    type: string
+    required: true
+
+outputs:
+  status:
+    description: 'status'
+
+runs:
+  using: docker
+  image: Dockerfile
+  args:
+    - localhost

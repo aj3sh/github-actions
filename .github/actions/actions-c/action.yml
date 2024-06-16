@@ -1,0 +1,33 @@
+name: Composite Custom Action
+
+branding:
+  color: green
+  icon: shield
+
+inputs:
+  name:
+    type: string
+    required: true
+
+outputs:
+  status:
+    description: 'Status'
+    value: ${{ steps.status_out.outputs.status }}
+
+runs:
+  using: composite
+  steps:
+    - run: echo $NAME
+      env:
+        NAME: ${{ inputs.name }}
+      shell: bash
+
+    - run: cat $GITHUB_EVENT_PATH
+      shell: bash
+
+    - run: echo '${{ toJSON(github.event) }}'
+      shell: bash
+
+    - id: status_out
+      run: echo "status=composite" >> $GITHUB_OUTPUT
+      shell: bash

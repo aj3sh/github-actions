@@ -13,3 +13,15 @@ docker build -t gha-runner -f Dockerfile.runner.linux.amd64 .
 ```shell
 docker run -it --name gha gha-runner /bin/bash
 ```
+
+Inside docker container
+```shell
+cd actions-runner
+```
+
+Follow the instructions given by Github:
+```shell
+./config.sh ...
+```
+
+Note: actions that uses docker in dockerized self-hosted runner will not work.

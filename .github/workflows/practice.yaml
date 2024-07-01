@@ -1,39 +1,14 @@
 name: GHA Practice
 
 on:
-  push:
+  pull_request_target:
 
 jobs:
   run:
     runs-on: ubuntu-latest
-    permissions:
-      packages: write
     steps:
       - uses: actions/checkout@v4
 
       - name: actions-a
-        uses: ./.github/actions/actions-a/
-        id: actions-a
-        with:
-          name: 'Javascript'
-
-      - run: |
-          echo 'Status: ${{ steps.actions-a.outputs.status }}'
-
-      - name: actions-b
-        uses: ./.github/actions/actions-b/
-        id: actions-b
-        with:
-          name: 'Docker'
-
-      - run: |
-          echo 'Status: ${{ steps.actions-b.outputs.status }}'
-
-      - name: actions-c
-        uses: ./.github/actions/actions-c/
-        id: actions-c
-        with:
-          name: 'Composite'
-
-      - run: |
-          echo 'Status: ${{ steps.actions-c.outputs.status }}'
+        run: |
+          cat $GITHUB_EVENT_PATH
